@@ -1,0 +1,130 @@
+<div class="flex justify-center items-center min-h-screen">
+  @if(message()){<app-notification-component
+    [message]="message()"
+    (onClose)="onClose()"
+    [severity]="severity()"
+  ></app-notification-component
+  >}
+
+  <p-card header="Register" class="w-96 min-h-10">
+    <form [formGroup]="registerForm" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <input
+          placeholder="name"
+          type="text"
+          pInputText
+          formControlName="name"
+          class="w-full"
+          name="name"
+          id="name"
+        />
+        @if(name.invalid&&(name.dirty ||name.touched)){
+        @if(name.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >Name is required</p-message
+        >
+        }@else if (name.hasError('pattern')) {
+        <p-message severity="error" variant="simple"
+          >Name must contain only alphabetic characters.</p-message
+        >
+        }@else if(name.hasError('minlength')){
+        <p-message severity="error" variant="simple"
+          >Name must be at least 2 characters long.</p-message
+        >
+        } }
+      </div>
+
+      <div class="mb-3">
+        <input
+          placeholder="Email"
+          type="text"
+          pInputText
+          formControlName="email"
+          class="w-full"
+          name="email"
+          id="email"
+        />
+        @if(email.invalid&&(email.dirty ||email.touched)){
+        @if(email.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >Email is required</p-message
+        >
+        }@else if (email.hasError('pattern')) {
+        <p-message severity="error" variant="simple"
+          >Please enter a valid email address</p-message
+        >
+        }@else if(email.hasError('emailNotUnique')){
+        <p-message severity="error" variant="simple"
+          >This email is already registered.</p-message
+        >
+        } }
+      </div>
+
+      <div class="mb-3">
+        <p-password
+          placeholder="Password"
+          formControlName="password"
+          [feedback]="false"
+          inputId="password"
+          [toggleMask]="true"
+          inputStyleClass="w-full"
+          styleClass="w-full"
+        />
+        @if(password.invalid&&(password.dirty ||password.touched)){
+        @if(password.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >Password is required</p-message
+        >
+        }@else{ 
+          
+          @if (password.hasError('pattern')) {
+        <p-message severity="error" variant="simple">
+          • Password must contain at least one special character.</p-message
+        >
+        } @if(password.hasError('minlength')){
+        <p-message severity="error" variant="simple"
+          >• Password must be at least 8 characters long.</p-message
+        >
+        } @if(password.hasError('noUpperCase')){
+        <p-message severity="error" variant="simple">
+          • Password must contain at least one uppercase letter.</p-message
+        >
+        } @if(password.hasError('noNumber') ){
+        <p-message severity="error" variant="simple">
+          • Password must contain at least one number.</p-message
+        >
+        } } }
+      </div>
+      <div class="mb-3">
+        <p-password
+          placeholder="ConfirmPassword"
+          formControlName="confirmPassword"
+          [feedback]="false"
+          inputId="confirmPassword"
+          [toggleMask]="true"
+          inputStyleClass="w-full"
+          styleClass="w-full"
+        />
+        @if(confirmPassword.invalid&&(confirmPassword.dirty ||confirmPassword.touched)){
+          @if(confirmPassword.hasError('required') ){
+          <p-message severity="error" variant="simple" styleClass="small-error"
+            >ConfirmPassword is required</p-message
+          >
+          }@else if (registerForm.get('confirmPassword')?.invalid) {
+          <p-message severity="error" variant="simple"
+            >The passwords don't match.</p-message
+          >
+          } }
+      </div>
+      <p-button
+        type="submit"
+        label="SiGN IN"
+        [raised]="true"
+        styleClass="w-full mt-6"
+        severity="secondary"
+        [disabled]="registerForm.invalid"
+      />
+      <div class="mt-2">memeber? <a routerLink="/login">login</a></div>
+    </form>
+  </p-card>
+</div>

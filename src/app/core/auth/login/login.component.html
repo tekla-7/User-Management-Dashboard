@@ -1,0 +1,69 @@
+<div class="flex justify-center items-center min-h-screen">
+  @if(message()){
+  
+    <app-notification-component
+    [message]="message()"
+    (onClose)="onClose()"
+    [severity]="severity()"
+  ></app-notification-component
+  >}
+
+  <p-card header="Login" class="w-96 min-h-10">
+    <form [formGroup]="loginForm" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <input
+          placeholder="Email"
+          type="text"
+          pInputText
+          formControlName="email"
+          class="w-full"
+          name="email"
+          id="email"
+        />
+        @if(email.invalid&&(email.dirty ||email.touched)){
+        @if(email.hasError('required') ){
+        <p-message severity="error" variant="simple"
+          >Email is required</p-message
+        >
+        }@else if (email.hasError('pattern')) {
+        <p-message severity="error" variant="simple"
+          >Please enter a valid email address</p-message
+        >
+        }}
+      </div>
+      <div class="mb-3">
+        <p-password
+          placeholder="password"
+          formControlName="password"
+          [feedback]="false"
+          inputId="password"
+          [toggleMask]="true"
+          inputStyleClass="w-full"
+          styleClass="w-full"
+        />
+        @if(password.invalid&&(password.dirty ||password.touched)){
+        @if(password.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >Password is required</p-message
+        >
+        } @if(password.hasError('minlength')){
+        <p-message severity="error" variant="simple">
+          Password must be at least 8 characters long.</p-message
+        >
+        }}
+      </div>
+
+      <p-button
+        type="submit"
+        label="SiGN IN"
+        [raised]="true"
+        styleClass="w-full mt-6"
+        severity="secondary"
+        [disabled]="loginForm.invalid"
+      />
+      <div class="mt-2">
+        not a memeber? <a routerLink="/register">register</a>
+      </div>
+    </form>
+  </p-card>
+</div>
