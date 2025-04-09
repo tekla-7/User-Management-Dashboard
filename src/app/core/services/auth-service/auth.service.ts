@@ -93,9 +93,9 @@ export class AuthService {
       .pipe(catchError(this.handleError('Failed to fetch users')));
   }
 
-  public getUserById(userId: string | number): Observable<IUser> {
+  public getUserById(userId: string | number): Observable<IUser[]> {
     return this.http
-      .get<IUser>(`${this.apiUrl}/users/${userId}`)
+      .get<IUser[]>(`${this.apiUrl}/users?id=${userId}`)
       .pipe(catchError(this.handleError('Failed to fetch user details')));
   }
 
@@ -127,7 +127,7 @@ export class AuthService {
     return !!this.currentUserSubject.value;
   }
 
-  private isAdmin(): boolean {
+  public isAdmin(): boolean {
     return !!this.currentUserSubject.value?.isAdmin;
   }
 

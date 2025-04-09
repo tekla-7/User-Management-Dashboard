@@ -5,8 +5,9 @@ import { authGuard } from './core/guards/auth-guard/auth.guard';
 import { loginGuard } from './core/guards/login-guard/login.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent ,canActivate:[loginGuard]},
-  { path: 'register', component: RegisterComponent ,canActivate:[loginGuard]},
+  { path: 'login', component: LoginComponent, canActivate: [loginGuard] },
+  { path: 'register', component: RegisterComponent, canActivate: [loginGuard] },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'users',
     loadChildren: () =>
@@ -15,9 +16,11 @@ export const routes: Routes = [
       ),
     canActivate: [authGuard],
   },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-
-  // {
-  //     path:'**',component:NoPageFound
-  // }
+  {
+    path: '**',
+    loadChildren: () =>
+      import('./features/page-not-found/router/users-list.routes').then(
+        (mod) => mod.PAGE_NOT_FOUND
+      ),
+  },
 ];

@@ -19,6 +19,7 @@ import { CommonModule } from '@angular/common';
 import { Message } from 'primeng/message';
 import { NotificationComponentComponent } from '../../../../shared/components/notification-component/notification-component.component';
 import { SeverityType } from '../../../../shared/models/severity-type.model';
+import { SharedService } from '../../../../shared/services/shared-services/shared.service';
 
 @Component({
   selector: 'app-register',
@@ -41,6 +42,7 @@ import { SeverityType } from '../../../../shared/models/severity-type.model';
 })
 export class RegisterComponent {
   private readonly authService = inject(AuthService);
+  private readonly sharedService = inject(SharedService);
   private readonly router=inject(Router)
   private readonly checkDataUniqueService = inject(CheckDataUniqueService);
   message = signal<string>('');
@@ -65,8 +67,8 @@ export class RegisterComponent {
         Validators.required,
         Validators.minLength(8),
         Validators.pattern(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/),
-        this.checkpasswordUpperCase,
-        this.checkpasswordNumber,
+        this.sharedService.checkpasswordUpperCase,
+        this.sharedService.checkpasswordNumber,
         // Has at least one uppercase letter
         // Has at least one digit
         // Has at least one special character
@@ -126,17 +128,5 @@ export class RegisterComponent {
     return this.registerForm.controls['confirmPassword'];
   }
 
-  private checkpasswordUpperCase(
-    control: AbstractControl
-  ): null | { noUpperCase: { value: string } } {
-    const hasUpperCase = /[A-Z]/.test(control.value);
-    return hasUpperCase ? null : { noUpperCase: { value: control.value } };
-  }
-
-  private checkpasswordNumber(
-    control: AbstractControl
-  ): null | { noNumber: { value: number } } {
-    const hasNumber = /\d/.test(control.value);
-    return hasNumber ? null : { noNumber: { value: control.value } };
-  }
+ 
 }

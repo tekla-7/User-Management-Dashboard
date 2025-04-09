@@ -1,1 +1,27 @@
-<p>users-list-page works!</p>
+<p-card header="Users">
+  <p class="m-0">A list of all the users.</p>
+  <table class="w-full bg-white">
+    <thead >
+      <tr class="border-b border-gray-500 border-opacity-30">
+        <th class="font-semibold p-4 text-left">Name</th>
+        <th class="font-semibold p-4 text-left">Email</th>
+        <th class="font-semibold p-4 text-left">Role</th>
+      </tr>
+    </thead>
+    <tbody>
+     
+      @for (item of users$|async; track $index) {
+        <tr class="cursor-pointer border-b border-gray-500 border-opacity-30 " (click)="showUser(item.id)">
+          <td class="lg:p-4 md:p-3 sm:px-1 sm:py-3 text-slate-400">{{ item.name }}</td>
+          <td class="lg:p-4  md:p-3 sm:px-1 sm:py-3 text-slate-400">{{ item.email }}</td>
+          <td class="lg:p-4  md:p-3 sm:px-1 sm:py-3 text-slate-400">
+            {{ item.isAdmin ? "Admin" : "Member" }}
+          </td>
+          <td class="lg:p-4 md:p-3 sm:px-1 sm:py-3">
+            <i class="pi pi-eye opacity-0" style="color: slateblue"></i>
+          </td>
+        </tr>
+        }
+    </tbody>
+  </table>
+</p-card>

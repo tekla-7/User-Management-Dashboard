@@ -1,1 +1,167 @@
-<p>user-detail works! {{id()}}</p>
+<div class="flex justify-center pt-20">
+  <p-card header="User" class="lg:w-[80%] min-h-10">
+    <form [formGroup]="userForm" (ngSubmit)="submit()">
+      <div class="mb-3">
+        <label for="name">Name</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="name"
+          class="w-full"
+          name="name"
+          id="name"
+        />
+        @if(name.invalid&&(name.dirty ||name.touched)){
+        @if(name.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >Name is required</p-message
+        >
+        }@else if (name.hasError('pattern')) {
+        <p-message severity="error" variant="simple"
+          >Name must contain only alphabetic characters.</p-message
+        >
+        }@else if(name.hasError('minlength')){
+        <p-message severity="error" variant="simple"
+          >Name must be at least 2 characters long.</p-message
+        >
+        } }
+      </div>
+
+      <div class="mb-3">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          pInputText
+          formControlName="email"
+          class="w-full"
+          name="email"
+          id="email"
+        />
+        @if(email.invalid&&(email.dirty ||email.touched)){
+        @if(email.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >Email is required</p-message
+        >
+        }@else if (email.hasError('pattern')) {
+        <p-message severity="error" variant="simple"
+          >Please enter a valid email address</p-message
+        >
+        }@else if(email.hasError('emailNotUnique')){
+        <p-message severity="error" variant="simple"
+          >This email is already registered.</p-message
+        >
+        } }
+      </div>
+
+      <div class="mb-3">
+        <label for="password">password</label>
+        <p-password
+          formControlName="password"
+          [feedback]="false"
+          inputId="password"
+          [toggleMask]="userAccess()"
+          inputStyleClass="w-full"
+          styleClass="w-full"
+        />
+        @if(password.invalid&&(password.dirty ||password.touched)){
+        @if(password.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >Password is required</p-message
+        >
+        }@else{ @if (password.hasError('pattern')) {
+        <p-message severity="error" variant="simple">
+          • Password must contain at least one special character.</p-message
+        >
+        } @if(password.hasError('minlength')){
+        <p-message severity="error" variant="simple"
+          >• Password must be at least 8 characters long.</p-message
+        >
+        } @if(password.hasError('noUpperCase')){
+        <p-message severity="error" variant="simple">
+          • Password must contain at least one uppercase letter.</p-message
+        >
+        } @if(password.hasError('noNumber') ){
+        <p-message severity="error" variant="simple">
+          • Password must contain at least one number.</p-message
+        >
+        } } }
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword">ConfirmPassword</label>
+        <p-password
+          formControlName="confirmPassword"
+          [feedback]="false"
+          inputId="confirmPassword"
+          [toggleMask]="userAccess()"
+          inputStyleClass="w-full"
+          styleClass="w-full"
+        />
+        @if(confirmPassword.invalid&&(confirmPassword.dirty
+        ||confirmPassword.touched)){ @if(confirmPassword.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >ConfirmPassword is required</p-message
+        >
+        }@else if (userForm.get('confirmPassword')?.invalid) {
+        <p-message severity="error" variant="simple"
+          >The passwords don't match.</p-message
+        >
+        } }
+      </div>
+      <div class="flex gap-2">
+        @for (role of roles; track $index) {
+        <div>
+          <p-radiobutton
+            [inputId]="role.key"
+            [value]="role"
+            formControlName="role"
+          />
+          <label [for]="role.key" class="ml-2">{{ role.name }}</label>
+        </div>
+        }
+      </div>
+
+      <div class="flex justify-around">
+        @if(!isEditing()){
+        <p-button
+          icon="pi pi-check"
+          type="submit"
+          label="save"
+          (onClick)="toggleEditState()"
+          [raised]="true"
+          styleClass="w-full mt-6"
+          severity="secondary"
+          [disabled]="!isAdmin() && !userAccess()"
+        />
+        } @if(isEditing()){
+        <p-button
+          icon="pi pi-pencil"
+          type="button"
+          label="edit"
+          (onClick)="toggleEditState()"
+          [raised]="true"
+          styleClass="w-full mt-6"
+          severity="secondary"
+          [disabled]="!isAdmin() && !userAccess()"
+        />
+        }
+
+        <p-button
+          icon="pi pi-trash"
+          type="button"
+          label="delate"
+          [raised]="true"
+          styleClass="w-full mt-6"
+          severity="secondary"
+          [disabled]="!isAdmin() && !userAccess()"
+        />
+      </div>
+      <!-- <div class="card flex justify-center">
+        pi-pencil
+
+            <p-button label="Save" icon="pi pi-check" />
+            <p-button label="Delete" icon="pi pi-trash" />
+            <p-button label="Cancel" icon="pi pi-times" />
+    </div> -->
+    </form>
+  </p-card>
+</div>

@@ -1,15 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { ButtonModule } from 'primeng/button';
-import { LoginComponent } from './core/auth/login/login.component';
+import { AuthService } from './core/services/auth-service/auth.service';
 
 @Component({
   selector: 'app-root',
-  standalone:true,
-  imports: [RouterOutlet ],
+  standalone: true,
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'project';
+export class AppComponent implements OnDestroy {
+  private readonly authService = inject(AuthService);
+  ngOnDestroy(): void {
+    this.authService.logout();
+  }
 }
