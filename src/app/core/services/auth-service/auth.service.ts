@@ -37,7 +37,7 @@ export class AuthService {
   public register(user: IUser): Observable<IUser> {
     const uniqueId: number = Date.now();
     const isAdmin: boolean = false;
-    const userWithId: IUser = { ...user, id: uniqueId, isAdmin: isAdmin };
+    const userWithId: IUser = { ...user, id: uniqueId.toString(), isAdmin: isAdmin };
 
     return this.CheckDataUniqueService.checkEmailUnique(user.email).pipe(
       switchMap((exists) => {
@@ -89,7 +89,7 @@ export class AuthService {
   public getCurrentUser(): IUser | null {
     return this.currentUserSubject.value;
   }
-  public getCurrentUserId(): number | undefined {
+  public getCurrentUserId(): number | undefined |string{
     return this.currentUserSubject.value?.id;
   }
   public getAllUsers(): Observable<IUser[]> {

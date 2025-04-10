@@ -9,8 +9,29 @@
     },
     {
       "id": "1744270283546",
-      "email": "test@example.cl",
+      "email": "test@exae.cmm",
       "password": "Ana1@gmail.com",
+      "name": "ana",
+      "isAdmin": false
+    },
+    {
+      "id": "1744291784755",
+      "email": "test@exae.cm",
+      "password": "Ana1@gmail.com",
+      "name": "ana",
+      "isAdmin": false
+    },
+    {
+      "id": "1744291841046",
+      "email": "test@exae.cm",
+      "password": "Ana1@gmail.com",
+      "name": "ana",
+      "isAdmin": false
+    },
+    {
+      "id": "1744292899896",
+      "email": "ana@ana.ge",
+      "password": "Ana@ana.ge1",
       "name": "ana",
       "isAdmin": false
     }

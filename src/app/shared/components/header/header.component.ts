@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
   private readonly authService = inject(AuthService);
   public isDropdownOpen = signal<boolean>(false);
   public isMenuOpen = signal<boolean>(false);
-  public currentUserId = signal<number | undefined>(undefined);
+  public currentUserId = signal<number | undefined|string>(undefined);
   ngOnInit(): void {
     this.currentUserId.set(this.authService.getCurrentUserId());
     console.log(this.currentUserId());

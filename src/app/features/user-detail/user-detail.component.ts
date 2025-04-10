@@ -29,6 +29,7 @@ import { SharedService } from '../../shared/services/shared-services/shared.serv
 import { tap } from 'rxjs';
 import { RadioButton } from 'primeng/radiobutton';
 import { HttpClient } from '@angular/common/http';
+import { NotificationComponentComponent } from '../../shared/components/notification-component/notification-component.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -43,6 +44,7 @@ import { HttpClient } from '@angular/common/http';
     Message,
     CommonModule,
     RadioButton,
+    NotificationComponentComponent
   ],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
@@ -54,7 +56,7 @@ export class UserDetailComponent implements OnInit {
   private userInfo = signal<IUser>({
     name: '',
     email: '',
-    id: 0,
+    id: "",
     password: '',
     isAdmin: false,
   });
@@ -206,7 +208,17 @@ export class UserDetailComponent implements OnInit {
             }
           })
         )
-        .subscribe((el) => console.log('this is update', el));
+        .subscribe({
+          next: (response) => {
+            this.severity.set('success')
+            this.message.set('update successful!');
+          },
+          error: (err) => {
+            this.severity.set('error')
+            this.message.set('update failed' + err);
+            console.error('update failed:', err);
+          },
+        });
     }
   }
   private checkAdmin() {

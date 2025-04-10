@@ -1,12 +1,12 @@
 <div class="flex justify-center pt-20">
-  <!-- @if(message()){
+  @if(message()){
   
     <app-notification-component
     [message]="message()"
     (onClose)="onClose()"
     [severity]="severity()"
   ></app-notification-component
-  >} -->
+  >}
 
   <p-card header="User" class="lg:w-[80%] min-h-10">
     <form [formGroup]="userForm" (ngSubmit)="submit()">
