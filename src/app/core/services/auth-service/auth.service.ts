@@ -37,7 +37,11 @@ export class AuthService {
   public register(user: IUser): Observable<IUser> {
     const uniqueId: number = Date.now();
     const isAdmin: boolean = false;
-    const userWithId: IUser = { ...user, id: uniqueId.toString(), isAdmin: isAdmin };
+    const userWithId: IUser = {
+      ...user,
+      id: uniqueId.toString(),
+      isAdmin: isAdmin,
+    };
 
     return this.CheckDataUniqueService.checkEmailUnique(user.email).pipe(
       switchMap((exists) => {
@@ -89,7 +93,7 @@ export class AuthService {
   public getCurrentUser(): IUser | null {
     return this.currentUserSubject.value;
   }
-  public getCurrentUserId(): number | undefined |string{
+  public getCurrentUserId(): number | undefined | string {
     return this.currentUserSubject.value?.id;
   }
   public getAllUsers(): Observable<IUser[]> {
@@ -138,12 +142,6 @@ export class AuthService {
     }
   }
 
-  // private checkEmailExists(email: string): Observable<boolean> {
-  //   return this.http.get<IUser[]>(`${this.apiUrl}/users?email=${email}`).pipe(
-  //     map((users) => users.length > 0),
-  //     catchError(this.handleError('Unable to verify email'))
-  //   );
-  // }
   private performUpdate(userData: Partial<IUser>): Observable<IUser> {
     return this.http
       .patch<IUser>(`${this.apiUrl}/users/${userData.id}`, userData)

@@ -18,7 +18,7 @@ export class UsersListComponent {
   private readonly autService = inject(AuthService);
   private readonly router = inject(Router);
   public users$: Observable<IUser[]> = this.autService.getAllUsers();
-  public showUser(id: number | undefined): void {
+  public showUser(id: number | undefined|string): void {
     this.router.navigate(['users/user', id]);
   }
 }

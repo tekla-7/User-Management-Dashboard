@@ -5,7 +5,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 
@@ -20,7 +19,6 @@ import { SeverityType } from '../../../shared/models/severity-type.model';
   selector: 'app-login',
   standalone: true,
   imports: [
-    CardModule,
     InputTextModule,
     ReactiveFormsModule,
     PasswordModule,

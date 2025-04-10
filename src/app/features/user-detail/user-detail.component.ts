@@ -40,7 +40,6 @@ import { NotificationComponentComponent } from '../../shared/components/notifica
     ReactiveFormsModule,
     PasswordModule,
     ButtonModule,
-    RouterLink,
     Message,
     CommonModule,
     RadioButton,

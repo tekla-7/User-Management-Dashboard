@@ -1,6 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import {
-  AbstractControl,
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
+import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -11,7 +15,6 @@ import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../../../services/auth-service/auth.service';
-import { CardModule } from 'primeng/card';
 import { samePasswordValidator } from '../validators/same-password.validators';
 import { emailAsyncValidator } from '../../../../shared/validators/check-email-uniqueness-validator';
 import { CheckDataUniqueService } from '../../../services/shared/check-data-unique.service';
@@ -25,7 +28,6 @@ import { SharedService } from '../../../../shared/services/shared-services/share
   selector: 'app-register',
   standalone: true,
   imports: [
-    CardModule,
     InputTextModule,
     ReactiveFormsModule,
     PasswordModule,
@@ -33,20 +35,19 @@ import { SharedService } from '../../../../shared/services/shared-services/share
     RouterLink,
     Message,
     CommonModule,
-    NotificationComponentComponent
+    NotificationComponentComponent,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
 export class RegisterComponent {
   private readonly authService = inject(AuthService);
   private readonly sharedService = inject(SharedService);
-  private readonly router=inject(Router)
+  private readonly router = inject(Router);
   private readonly checkDataUniqueService = inject(CheckDataUniqueService);
   message = signal<string>('');
-  severity=signal<SeverityType>('error')
+  severity = signal<SeverityType>('error');
   registerForm = new FormGroup(
     {
       name: new FormControl('', [
@@ -91,12 +92,12 @@ export class RegisterComponent {
     if (!this.registerForm.valid) {
       return;
     }
-    const { name,email, password } = this.registerForm.value;
-    if(!email || !password||!name){
-      return
+    const { name, email, password } = this.registerForm.value;
+    if (!email || !password || !name) {
+      return;
     }
     this.authService
-      .register({ email: email, password: password, name: name})
+      .register({ email: email, password: password, name: name })
       .subscribe({
         next: (response) => {
           this.severity.set('success');
@@ -105,7 +106,7 @@ export class RegisterComponent {
           console.log('Registration successful!', response);
         },
         error: (err) => {
-          this.severity.set('error')
+          this.severity.set('error');
           this.message.set('login failed' + err);
           console.error('Registration failed:', err);
         },
@@ -127,6 +128,4 @@ export class RegisterComponent {
   get confirmPassword() {
     return this.registerForm.controls['confirmPassword'];
   }
-
- 
 }

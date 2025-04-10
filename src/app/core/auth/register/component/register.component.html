@@ -1,20 +1,33 @@
-<div class="flex justify-center items-center min-h-screen">
-  @if(message()){<app-notification-component
-    [message]="message()"
-    (onClose)="onClose()"
-    [severity]="severity()"
-  ></app-notification-component
-  >}
+<div
+  class="flex justify-center items-start pt-[110px] min-h-screen max-[640px]:pt-[88px]"
+>
+  <div
+    class="w-[500px] px-[30px] pt-10 pb-14 bg-[#FFFFFF] rounded-xl max-[640px]:max-w-[350px] max-[640px]:mx-[16px] max-[640px]:p-[0]"
+  >
+    <div>
+      <p
+        class="flex justify-center text-[#000000] font-bold text-[32px] mb-10 max-[640px]:text-[30px] max-[640px]:mb-[40px]"
+      >
+        Sign up
+      </p>
+    </div>
+    @if(message()){
 
-  <p-card header="Register" class="w-96 min-h-10">
-    <form [formGroup]="registerForm" (ngSubmit)="submit()">
-      <div class="mb-3">
+    <app-notification-component
+      [message]="message()"
+      (onClose)="onClose()"
+      [severity]="severity()"
+    ></app-notification-component
+    >}
+
+    <form [formGroup]="registerForm" (ngSubmit)="submit()" class="w-full">
+      <div class="mb-[14px]">
         <input
           placeholder="name"
           type="text"
           pInputText
           formControlName="name"
-          class="w-full"
+          class="w-full h-[52px]"
           name="name"
           id="name"
         />
@@ -34,13 +47,13 @@
         } }
       </div>
 
-      <div class="mb-3">
+      <div class="mb-[14px]">
         <input
           placeholder="Email"
           type="text"
           pInputText
           formControlName="email"
-          class="w-full"
+          class="w-full h-[52px]"
           name="email"
           id="email"
         />
@@ -60,7 +73,7 @@
         } }
       </div>
 
-      <div class="mb-3">
+      <div class="mb-[14px]">
         <p-password
           placeholder="Password"
           formControlName="password"
@@ -68,16 +81,14 @@
           inputId="password"
           [toggleMask]="true"
           inputStyleClass="w-full"
-          styleClass="w-full"
+          styleClass="w-full h-[52px]"
         />
         @if(password.invalid&&(password.dirty ||password.touched)){
         @if(password.hasError('required') ){
         <p-message severity="error" variant="simple" styleClass="small-error"
           >Password is required</p-message
         >
-        }@else{ 
-          
-          @if (password.hasError('pattern')) {
+        }@else{ @if (password.hasError('pattern')) {
         <p-message severity="error" variant="simple">
           • Password must contain at least one special character.</p-message
         >
@@ -95,7 +106,7 @@
         >
         } } }
       </div>
-      <div class="mb-3">
+      <div class="mb-8">
         <p-password
           placeholder="ConfirmPassword"
           formControlName="confirmPassword"
@@ -103,28 +114,30 @@
           inputId="confirmPassword"
           [toggleMask]="true"
           inputStyleClass="w-full"
-          styleClass="w-full"
+          styleClass="w-full h-[52px]"
         />
-        @if(confirmPassword.invalid&&(confirmPassword.dirty ||confirmPassword.touched)){
-          @if(confirmPassword.hasError('required') ){
-          <p-message severity="error" variant="simple" styleClass="small-error"
-            >ConfirmPassword is required</p-message
-          >
-          }@else if (registerForm.get('confirmPassword')?.invalid) {
-          <p-message severity="error" variant="simple"
-            >The passwords don't match.</p-message
-          >
-          } }
+        @if(confirmPassword.invalid&&(confirmPassword.dirty
+        ||confirmPassword.touched)){ @if(confirmPassword.hasError('required') ){
+        <p-message severity="error" variant="simple" styleClass="small-error"
+          >ConfirmPassword is required</p-message
+        >
+        }@else if (registerForm.get('confirmPassword')?.invalid) {
+        <p-message severity="error" variant="simple"
+          >The passwords don't match.</p-message
+        >
+        } }
       </div>
       <p-button
         type="submit"
-        label="SiGN IN"
         [raised]="true"
-        styleClass="w-full mt-6"
-        severity="secondary"
+        styleClass="w-full h-[48px] mb-[40px]"
         [disabled]="registerForm.invalid"
-      />
-      <div class="mt-2">memeber? <a routerLink="/login">login</a></div>
+        ><p class="text-[#FFFFFF] text-[16px] font-medium">Log in</p></p-button
+      >
+      <div class="flex justify-center text-[14px] font-sans font-normal">
+        <span class="pr-1 text-[#989898]">Don’t have an account ? </span>
+        <a routerLink="/login" class="text-[#6558F2] font-medium"> Sign in</a>
+      </div>
     </form>
-  </p-card>
+  </div>
 </div>
