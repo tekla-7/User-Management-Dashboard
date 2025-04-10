@@ -1,45 +1,17 @@
 {
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "email": "test@example.com",
       "password": "password123",
       "name": "Test User",
       "isAdmin": true
     },
     {
-      "id": 2,
-      "email": "password@gmal.com",
-      "password": "hdgsg",
+      "id": 1744270283546,
+      "email": "ana@gmail.com",
+      "password": "Ana1@gmail.com",
       "name": "ana",
-      "isAdmin": false
-    },
-    {
-      "id": 1744086963866,
-      "email": "pass@gmal.com",
-      "password": "hdgsg",
-      "name": "ana",
-      "isAdmin": false
-    },
-    {
-      "id": 1744088619590,
-      "email": "pa@gmal.com",
-      "password": "hdgsg",
-      "name": "ana",
-      "isAdmin": false
-    },
-    {
-      "id": 1744089105823,
-      "email": "pasacaa@gmal.com",
-      "password": "hdgsg",
-      "name": "ana",
-      "isAdmin": false
-    },
-    {
-      "id": 1744105735223,
-      "email": "a@gaa1.com",
-      "password": "A@gaa1.com",
-      "name": "aaaa",
       "isAdmin": false
     }
   ]

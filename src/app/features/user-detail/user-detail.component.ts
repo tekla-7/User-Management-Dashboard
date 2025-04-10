@@ -7,8 +7,6 @@ import {
   signal,
 } from '@angular/core';
 import {
-  AbstractControl,
-  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -25,8 +23,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { Message } from 'primeng/message';
-import { CommonModule, formatNumber } from '@angular/common';
-import { Checkbox } from 'primeng/checkbox';
+import { CommonModule } from '@angular/common';
 import { IUser } from '../../core/models/user.model';
 import { SharedService } from '../../shared/services/shared-services/shared.service';
 import { tap } from 'rxjs';
@@ -44,7 +41,6 @@ import { RadioButton } from 'primeng/radiobutton';
     RouterLink,
     Message,
     CommonModule,
-    Checkbox,
     RadioButton,
   ],
   templateUrl: './user-detail.component.html',
@@ -54,12 +50,18 @@ import { RadioButton } from 'primeng/radiobutton';
 export class UserDetailComponent implements OnInit {
   public id = input.required<string | number>();
   public isEditing = signal<boolean>(true);
-  private userInfo = signal<IUser | undefined>(undefined);
+  private userInfo = signal<IUser>({
+    name: '',
+    email: '',
+    id: 0,
+    password: '',
+  });
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly sharedService = inject(SharedService);
   public isAdmin = signal<boolean>(true);
   public userAccess = signal<boolean>(false);
+  private currentLoginUser=signal<IUser|null>(this.authService.getCurrentUser())
   private readonly checkDataUniqueService = inject(CheckDataUniqueService);
   message = signal<string>('');
   severity = signal<SeverityType>('error');
@@ -155,15 +157,37 @@ export class UserDetailComponent implements OnInit {
   public onClose(): void {
     this.message.set('');
   }
-  public toggleEditState(): void {
+  public toggleEditState(action: string): void {
     this.isEditing.update((el) => !el);
-    if (!this.isEditing()) {
-      this.setEnable();
-    } else {
-      this.setDisable();
-    }
+    this.isEditing() ? this.setDisable() : this.setEnable();
+    action === 'cancel' && this.cancel();
+    action === 'delate' && this.delate();
   }
-
+  private cancel(): void {
+    this.userForm.reset();
+    this.setUserForm(this.userInfo());
+  }
+  private delate(): void {
+    if(!this.userInfo().id){
+      return
+    }
+  
+    this.authService
+      .delateUser(this.userInfo().id?.toString())
+      .pipe(
+        tap((user) => {
+          if(user){
+          if ((this.currentLoginUser()?.id !== this.id()) && this.isAdmin()) {
+            this.router.navigate(['/users']);
+          }else if (this.userInfo().id === this.id()) {
+            this.authService.logout();
+            this.router.navigate(['/login']);
+          }}
+        })
+      )
+      .subscribe();
+  }
+  
   private checkAdmin() {
     this.isAdmin.set(this.authService.isAdmin());
   }
@@ -196,6 +220,19 @@ export class UserDetailComponent implements OnInit {
       this.userForm.get('role')?.enable();
     }
   }
+  private setUserForm(user: IUser) {
+    if (!user.name || !user.email || !user.password) {
+      return;
+    }
+
+    this.userForm.setValue({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      confirmPassword: user.password,
+      role: user.isAdmin ? this.roles[0] : this.roles[1],
+    });
+  }
   private setUserInfo() {
     this.authService.getUserById(this.id()).subscribe((users) => {
       let user: IUser = users[0];
@@ -203,22 +240,18 @@ export class UserDetailComponent implements OnInit {
         return;
       }
       this.userInfo.set({
+        id: user.id,
         name: user.name,
         email: user.email,
         password: user.password,
         isAdmin: user.isAdmin,
       });
-
-      this.userForm.setValue({
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        confirmPassword: user.password,
-        role: user.isAdmin ? this.roles[0] : this.roles[1],
-      });
+      this.setUserForm(user);
     });
   }
-
+  private checkIfUserValueExists(user: IUser): boolean {
+    return !!(user?.name && user?.email && user?.id && user?.password);
+  }
   get name() {
     return this.userForm.controls['name'];
   }

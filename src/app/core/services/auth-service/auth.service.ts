@@ -81,6 +81,11 @@ export class AuthService {
     this.currentUserSubject.next(null);
   }
 
+  public delateUser(userId: string | undefined): Observable<IUser> {
+    return this.http
+      .delete<IUser>(`${this.apiUrl}/users/${userId}`)
+      .pipe(catchError(this.handleError('Failed to delete user')));
+  }
   public getCurrentUser(): IUser | null {
     return this.currentUserSubject.value;
   }
@@ -100,28 +105,21 @@ export class AuthService {
   }
 
   public updateUser(
-    userId: string | number,
     userData: Partial<IUser>
   ): Observable<IUser> {
-    const currentUser = this.getCurrentUser();
-    if (!currentUser || (currentUser.id !== userId && !currentUser.isAdmin)) {
-      return throwError(
-        () => new Error('You do not have permission to edit this user')
-      );
-    }
-
-    if (userData.email && userData.email !== currentUser.email) {
+   
+    if (userData.email && userData.email) {
       return this.CheckDataUniqueService.checkEmailUnique(userData.email).pipe(
         switchMap((exists) => {
           if (exists) {
             return throwError(() => new Error('Email is already in use'));
           }
-          return this.performUpdate(userId, userData);
+          return this.performUpdate(userData);
         })
       );
     }
 
-    return this.performUpdate(userId, userData);
+    return this.performUpdate( userData);
   }
   public isAuthenticated(): boolean {
     return !!this.currentUserSubject.value;
@@ -150,11 +148,10 @@ export class AuthService {
   //   );
   // }
   private performUpdate(
-    userId: string | number,
     userData: Partial<IUser>
   ): Observable<IUser> {
     return this.http
-      .patch<IUser>(`${this.apiUrl}/users/${userId}`, userData)
+      .patch<IUser>(`${this.apiUrl}/users/${userData.id}`, userData)
       .pipe(
         tap((updatedUser) => {
           const currentUser = this.getCurrentUser();

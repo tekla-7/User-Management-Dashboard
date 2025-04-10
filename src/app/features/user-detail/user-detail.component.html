@@ -120,24 +120,47 @@
         }
       </div>
 
-      <div class="flex justify-around">
+      <div class="flex ">
         @if(!isEditing()){
-        <p-button
-          icon="pi pi-check"
-          type="submit"
-          label="save"
-          (onClick)="toggleEditState()"
+        <div class="flex justify-around w-full">
+          <p-button
+            icon="pi pi-check"
+            type="submit"
+            label="save"
+            (onClick)="toggleEditState('save')"
+            [raised]="true"
+            styleClass="w-full mt-6"
+            severity="secondary"
+            [disabled]="!isAdmin() && !userAccess()"
+          />
+          <p-button
+            icon="pi pi-times"
+            type="button"
+            label="Cancel"
+            (onClick)="toggleEditState('cancel')"
+            [raised]="true"
+            styleClass="w-full mt-6"
+            severity="secondary"
+            [disabled]="!isAdmin() && !userAccess()"
+          />
+          <p-button
+          icon="pi pi-trash"
+          type="button"
+          label="delate"
           [raised]="true"
+          (onClick)="toggleEditState('delate')"
           styleClass="w-full mt-6"
           severity="secondary"
           [disabled]="!isAdmin() && !userAccess()"
         />
+        </div>
+       
         } @if(isEditing()){
         <p-button
           icon="pi pi-pencil"
           type="button"
           label="edit"
-          (onClick)="toggleEditState()"
+          (onClick)="toggleEditState('edit')"
           [raised]="true"
           styleClass="w-full mt-6"
           severity="secondary"
@@ -145,15 +168,7 @@
         />
         }
 
-        <p-button
-          icon="pi pi-trash"
-          type="button"
-          label="delate"
-          [raised]="true"
-          styleClass="w-full mt-6"
-          severity="secondary"
-          [disabled]="!isAdmin() && !userAccess()"
-        />
+       
       </div>
       <!-- <div class="card flex justify-center">
         pi-pencil

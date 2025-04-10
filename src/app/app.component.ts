@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/services/auth-service/auth.service';
 
@@ -9,9 +9,16 @@ import { AuthService } from './core/services/auth-service/auth.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnDestroy {
+export class AppComponent {
   private readonly authService = inject(AuthService);
-  ngOnDestroy(): void {
-    this.authService.logout();
-  }
+  // constructor(){
+    
+  //   this.authService.logout();
+  // }
+  // ngOnInit(): void {
+  //   window.addEventListener('beforeunload', () => {
+  //     this.authService.logout();
+  //   }, false);
+  // }
+ 
 }
