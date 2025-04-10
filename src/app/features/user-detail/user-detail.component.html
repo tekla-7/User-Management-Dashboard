@@ -1,4 +1,13 @@
 <div class="flex justify-center pt-20">
+  <!-- @if(message()){
+  
+    <app-notification-component
+    [message]="message()"
+    (onClose)="onClose()"
+    [severity]="severity()"
+  ></app-notification-component
+  >} -->
+
   <p-card header="User" class="lg:w-[80%] min-h-10">
     <form [formGroup]="userForm" (ngSubmit)="submit()">
       <div class="mb-3">
@@ -120,7 +129,7 @@
         }
       </div>
 
-      <div class="flex ">
+      <div class="flex">
         @if(!isEditing()){
         <div class="flex justify-around w-full">
           <p-button
@@ -131,7 +140,7 @@
             [raised]="true"
             styleClass="w-full mt-6"
             severity="secondary"
-            [disabled]="!isAdmin() && !userAccess()"
+            [disabled]="!this.userForm.valid"
           />
           <p-button
             icon="pi pi-times"
@@ -141,20 +150,18 @@
             [raised]="true"
             styleClass="w-full mt-6"
             severity="secondary"
-            [disabled]="!isAdmin() && !userAccess()"
           />
           <p-button
-          icon="pi pi-trash"
-          type="button"
-          label="delate"
-          [raised]="true"
-          (onClick)="toggleEditState('delate')"
-          styleClass="w-full mt-6"
-          severity="secondary"
-          [disabled]="!isAdmin() && !userAccess()"
-        />
+            icon="pi pi-trash"
+            type="button"
+            label="delate"
+            [raised]="true"
+            (onClick)="toggleEditState('delate')"
+            styleClass="w-full mt-6"
+            severity="secondary"
+          />
         </div>
-       
+
         } @if(isEditing()){
         <p-button
           icon="pi pi-pencil"
@@ -167,8 +174,6 @@
           [disabled]="!isAdmin() && !userAccess()"
         />
         }
-
-       
       </div>
       <!-- <div class="card flex justify-center">
         pi-pencil
@@ -180,3 +185,4 @@
     </form>
   </p-card>
 </div>
+ 

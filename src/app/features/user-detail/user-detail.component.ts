@@ -28,6 +28,7 @@ import { IUser } from '../../core/models/user.model';
 import { SharedService } from '../../shared/services/shared-services/shared.service';
 import { tap } from 'rxjs';
 import { RadioButton } from 'primeng/radiobutton';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-user-detail',
@@ -55,13 +56,17 @@ export class UserDetailComponent implements OnInit {
     email: '',
     id: 0,
     password: '',
+    isAdmin: false,
   });
+  private readonly http = inject(HttpClient);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly sharedService = inject(SharedService);
   public isAdmin = signal<boolean>(true);
   public userAccess = signal<boolean>(false);
-  private currentLoginUser=signal<IUser|null>(this.authService.getCurrentUser())
+  private currentLoginUser = signal<IUser | null>(
+    this.authService.getCurrentUser()
+  );
   private readonly checkDataUniqueService = inject(CheckDataUniqueService);
   message = signal<string>('');
   severity = signal<SeverityType>('error');
@@ -112,23 +117,6 @@ export class UserDetailComponent implements OnInit {
     this.checkAdmin();
     this.checkUserAccess();
     this.setDisable();
-    ///////need to be fix
-    // this.userForm.controls['email'].valueChanges
-    //   .pipe(
-    //     tap((newEmail) => {
-    //       const originalEmail = this.userInfo()?.email;
-
-    //       if (newEmail !== originalEmail) {
-    //         this.userForm.controls.email.setAsyncValidators(
-    //           emailAsyncValidator(this.checkDataUniqueService)
-    //         );
-    //       } else {
-
-    //         this.userForm.controls.email.clearAsyncValidators();
-    //       }
-    //     })
-    //   )
-    //   .subscribe();
   }
   public submit(): void {
     if (!this.userForm.valid) {
@@ -162,47 +150,77 @@ export class UserDetailComponent implements OnInit {
     this.isEditing() ? this.setDisable() : this.setEnable();
     action === 'cancel' && this.cancel();
     action === 'delate' && this.delate();
+    action === 'save' && this.save();
   }
   private cancel(): void {
     this.userForm.reset();
     this.setUserForm(this.userInfo());
   }
   private delate(): void {
-    if(!this.userInfo().id){
-      return
+    if (!this.userInfo().id) {
+      return;
     }
-  
+
     this.authService
       .delateUser(this.userInfo().id?.toString())
       .pipe(
         tap((user) => {
-          if(user){
-          if ((this.currentLoginUser()?.id !== this.id()) && this.isAdmin()) {
-            this.router.navigate(['/users']);
-          }else if (this.userInfo().id === this.id()) {
-            this.authService.logout();
-            this.router.navigate(['/login']);
-          }}
+          if (user) {
+            if (this.currentLoginUser()?.id !== this.id() && this.isAdmin()) {
+              this.router.navigate(['/users']);
+            } else if (this.userInfo().id === this.id()) {
+              this.authService.logout();
+              this.router.navigate(['/login']);
+            }
+          }
         })
       )
       .subscribe();
   }
-  
+  private save(): void {
+    let formAdminChange = this.role.value.name == 'admin' ? true : false;
+    let updateUser: Partial<IUser> = {
+      id: this.userInfo().id,
+    };
+    this.name.value !== this.userInfo().name &&
+      (updateUser.name = this.name.value ?? undefined);
+    this.email.value !== this.userInfo().email &&
+      (updateUser.email = this.email.value ?? undefined);
+    this.password.value !== this.userInfo().password &&
+      (updateUser.password = this.password.value ?? undefined);
+    formAdminChange !== this.userInfo().isAdmin &&
+      (updateUser.isAdmin = formAdminChange);
+    if (
+      this.name.value !== this.userInfo().name ||
+      this.password.value !== this.userInfo().password ||
+      this.email.value !== this.userInfo().email ||
+      formAdminChange !== this.userInfo().isAdmin
+    ) {
+      this.authService
+        .updateUser(updateUser)
+        .pipe(
+          tap((user) => {
+            if (user) {
+              this.setUserInfoValue(user);
+              console.log('this is update', this.userInfo());
+            }
+          })
+        )
+        .subscribe((el) => console.log('this is update', el));
+    }
+  }
   private checkAdmin() {
     this.isAdmin.set(this.authService.isAdmin());
   }
   private checkUserAccess() {
+    let currentUserId = this.authService.getCurrentUserId();
     if (this.isAdmin()) {
+      currentUserId?.toString() === this.id() && this.userAccess.set(true);
       return;
     }
-
-    let currentUserId = this.authService.getCurrentUserId();
-
-    if (currentUserId?.toString() === this.id()) {
-      this.userAccess.set(true);
-    } else {
-      this.userAccess.set(false);
-    }
+    currentUserId?.toString() === this.id()
+      ? this.userAccess.set(true)
+      : this.userAccess.set(false);
   }
   private setDisable() {
     this.userForm.get('name')?.disable();
@@ -239,14 +257,17 @@ export class UserDetailComponent implements OnInit {
       if (!user.name || !user.email || !user.id || !user.password) {
         return;
       }
-      this.userInfo.set({
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        isAdmin: user.isAdmin,
-      });
+      this.setUserInfoValue(user);
       this.setUserForm(user);
+    });
+  }
+  private setUserInfoValue(user: IUser): void {
+    this.userInfo.set({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      isAdmin: user.isAdmin,
     });
   }
   private checkIfUserValueExists(user: IUser): boolean {
@@ -261,7 +282,9 @@ export class UserDetailComponent implements OnInit {
   get password() {
     return this.userForm.controls['password'];
   }
-
+  get role() {
+    return this.userForm.controls['role'];
+  }
   get confirmPassword() {
     return this.userForm.controls['confirmPassword'];
   }

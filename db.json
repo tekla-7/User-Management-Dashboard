@@ -8,8 +8,8 @@
       "isAdmin": true
     },
     {
-      "id": 1744270283546,
-      "email": "ana@gmail.com",
+      "id": "1744270283546",
+      "email": "test@example.cl",
       "password": "Ana1@gmail.com",
       "name": "ana",
       "isAdmin": false

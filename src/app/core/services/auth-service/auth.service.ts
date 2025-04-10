@@ -104,11 +104,8 @@ export class AuthService {
       .pipe(catchError(this.handleError('Failed to fetch user details')));
   }
 
-  public updateUser(
-    userData: Partial<IUser>
-  ): Observable<IUser> {
-   
-    if (userData.email && userData.email) {
+  public updateUser(userData: Partial<IUser>): Observable<IUser> {
+    if (userData.email) {
       return this.CheckDataUniqueService.checkEmailUnique(userData.email).pipe(
         switchMap((exists) => {
           if (exists) {
@@ -119,7 +116,7 @@ export class AuthService {
       );
     }
 
-    return this.performUpdate( userData);
+    return this.performUpdate(userData);
   }
   public isAuthenticated(): boolean {
     return !!this.currentUserSubject.value;
@@ -147,21 +144,10 @@ export class AuthService {
   //     catchError(this.handleError('Unable to verify email'))
   //   );
   // }
-  private performUpdate(
-    userData: Partial<IUser>
-  ): Observable<IUser> {
+  private performUpdate(userData: Partial<IUser>): Observable<IUser> {
     return this.http
       .patch<IUser>(`${this.apiUrl}/users/${userData.id}`, userData)
-      .pipe(
-        tap((updatedUser) => {
-          const currentUser = this.getCurrentUser();
-          if (currentUser?.id === updatedUser.id) {
-            const { password, ...userWithoutPassword } = updatedUser;
-            this.setCurrentUser(userWithoutPassword);
-          }
-        }),
-        catchError(this.handleError('Failed to update user'))
-      );
+      .pipe(catchError(this.handleError('Failed to update user')));
   }
 
   private handleError(message: string) {

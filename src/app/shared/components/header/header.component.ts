@@ -47,7 +47,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login']);
   }
   @HostListener('document:click', ['$event'])
-  private close(event: MouseEvent): void {
+   close(event: MouseEvent): void {
     const target = event.target as HTMLElement;
     const clickedInside = target.closest('.dropDown');
     if (!clickedInside) {
