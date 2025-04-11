@@ -1,45 +1,38 @@
 {
   "users": [
     {
-      "id": "1",
-      "email": "test@example.com",
-      "password": "password123",
-      "name": "Test User",
+      "id": "1744349194486",
+      "email": "Admin1@admin.com",
+      "password": "Admin1@admin.com",
+      "name": "Admin",
       "isAdmin": true
-    },
-    {
-      "id": "1744270283546",
-      "email": "test@exae.cmm",
-      "password": "Ana1@gmail.com",
-      "name": "ana",
-      "isAdmin": true
-    },
-    {
-      "id": "1744291784755",
-      "email": "test@exae.cm",
-      "password": "Ana1@gmail.com",
-      "name": "ana",
-      "isAdmin": false
-    },
-    {
-      "id": "1744291841046",
-      "email": "test@exae.cm",
-      "password": "Ana1@gmail.com",
-      "name": "ana",
-      "isAdmin": false
-    },
-    {
-      "id": "1744292899896",
-      "email": "ana@ana.ge",
-      "password": "Ana@ana.ge1",
-      "name": "ana",
-      "isAdmin": false
     },
     {
       "id": "1744349194486",
       "email": "Admin1@admin.com",
       "password": "Admin1@admin.com",
       "name": "Admin",
+      "isAdmin": true
+    },
+    {
+      "id": "1744361428517",
+      "email": "Member1@gmail.com",
+      "password": "Member1@gmail.com",
+      "name": "member",
+      "isAdmin": false
+    },
+    {
+      "id": "1744361466324",
+      "email": "Member3@gmail.com",
+      "password": "Member3@gmail.com",
+      "name": "user",
+      "isAdmin": false
+    },
+    {
+      "id": "1744361484799",
+      "email": "Member4@gmail.com",
+      "password": "Member4@gmail.com",
+      "name": "ana",
       "isAdmin": false
     }
   ]

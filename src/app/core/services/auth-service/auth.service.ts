@@ -13,7 +13,6 @@ import {
 
 import { API_URLS } from '../../config/api-url';
 import { IUser } from '../../models/user.model';
-import { Data } from '@angular/router';
 import { CheckDataUniqueService } from '../shared/check-data-unique.service';
 
 export interface AuthResponse {
@@ -123,7 +122,7 @@ export class AuthService {
     return !!this.currentUserSubject.value?.isAdmin;
   }
 
-  private setCurrentUser(user: IUser): void {
+  public setCurrentUser(user: IUser): void {
     localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
@@ -138,7 +137,8 @@ export class AuthService {
   private performUpdate(userData: Partial<IUser>): Observable<IUser> {
     return this.http
       .patch<IUser>(`${this.apiUrl}/users/${userData.id}`, userData)
-      .pipe(catchError(this.handleError('Failed to update user')));
+      .pipe(
+        catchError(this.handleError('Failed to update user')));
   }
 
   private handleError(message: string) {

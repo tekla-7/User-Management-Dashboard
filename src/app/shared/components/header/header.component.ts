@@ -20,30 +20,25 @@ import { tap } from 'rxjs';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // host: {
-  //   '(click[$event])': 'close()',
-  // },
 })
 export class HeaderComponent implements OnInit {
-  // id = input.required<string>();
   private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
+
   private readonly authService = inject(AuthService);
   public isDropdownOpen = signal<boolean>(false);
   public isMenuOpen = signal<boolean>(false);
   public currentUserId = signal<number | undefined | string>(undefined);
   ngOnInit(): void {
     this.currentUserId.set(this.authService.getCurrentUserId());
-  
   }
-public userRoute(){
-  // if(this.currentUserId()!=this.id()){
+  public userRoute() {
+    let url = this.router.url;
 
-  //   this.router.navigate(['/users/user',this.id()]);
-
-  // }else{this.router.navigate(['/users/user',this.currentUserId()])}
-
-  // [routerLink]="['/users/user', currentUserId()]"
-}
+    if (!url.includes('user/')) {
+      this.router.navigate(['/users/user', this.currentUserId()]);
+    }
+  }
   public toggleDropdown(): void {
     this.isDropdownOpen.update((el) => !el);
   }

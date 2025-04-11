@@ -42,7 +42,8 @@ import { Destroyable } from '../../shared/base/classes/destroyable.class';
     Message,
     CommonModule,
     RadioButton,
-    NotificationComponentComponent
+    NotificationComponentComponent,
+    
   ],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
@@ -211,6 +212,10 @@ export class UserDetailComponent extends Destroyable implements OnInit {
         )
         .subscribe({
           next: (response) => {
+            if(updateUser.isAdmin !== undefined && updateUser.id==this.currentLoginUser()?.id){
+              this.authService.setCurrentUser(response);
+              response.isAdmin!==undefined&&this.isAdmin.set(response.isAdmin)
+            }
             this.severity.set('success')
             this.message.set('update successful!');
           },
