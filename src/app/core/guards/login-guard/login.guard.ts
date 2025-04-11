@@ -11,4 +11,5 @@ export const loginGuard: CanActivateFn = (route, state) => {
   } else {
     router.navigate(['/users']);
     return false;
-  }};
+  }
+};

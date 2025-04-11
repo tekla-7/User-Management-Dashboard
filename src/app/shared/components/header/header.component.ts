@@ -4,14 +4,12 @@ import {
   Component,
   HostListener,
   inject,
-  input,
   OnInit,
   signal,
 } from '@angular/core';
 import { AvatarModule } from 'primeng/avatar';
 import { AuthService } from '../../../core/services/auth-service/auth.service';
-import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
-import { tap } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +21,6 @@ import { tap } from 'rxjs';
 })
 export class HeaderComponent implements OnInit {
   private readonly router = inject(Router);
-  private readonly activatedRoute = inject(ActivatedRoute);
 
   private readonly authService = inject(AuthService);
   public isDropdownOpen = signal<boolean>(false);

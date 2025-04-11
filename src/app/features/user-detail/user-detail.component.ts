@@ -43,7 +43,6 @@ import { Destroyable } from '../../shared/base/classes/destroyable.class';
     CommonModule,
     RadioButton,
     NotificationComponentComponent,
-    
   ],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss',
@@ -55,11 +54,11 @@ export class UserDetailComponent extends Destroyable implements OnInit {
   private userInfo = signal<IUser>({
     name: '',
     email: '',
-    id: "",
+    id: '',
     password: '',
     isAdmin: false,
   });
- 
+
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly sharedService = inject(SharedService);
@@ -89,10 +88,6 @@ export class UserDetailComponent extends Destroyable implements OnInit {
         Validators.pattern(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/),
         this.sharedService.checkpasswordUpperCase,
         this.sharedService.checkpasswordNumber,
-        // Has at least one uppercase letter
-        // Has at least one digit
-        // Has at least one special character
-        // Is at least 8 characters long
       ]),
       confirmPassword: new FormControl('', [
         Validators.required,
@@ -108,7 +103,7 @@ export class UserDetailComponent extends Destroyable implements OnInit {
     }
   );
 
-  roles: any[] = [
+  public roles: { name: string; key: string }[] = [
     { name: 'admin', key: 'A' },
     { name: 'member', key: 'M' },
   ];
@@ -212,25 +207,29 @@ export class UserDetailComponent extends Destroyable implements OnInit {
         )
         .subscribe({
           next: (response) => {
-            if(updateUser.isAdmin !== undefined && updateUser.id==this.currentLoginUser()?.id){
+            if (
+              updateUser.isAdmin !== undefined &&
+              updateUser.id == this.currentLoginUser()?.id
+            ) {
               this.authService.setCurrentUser(response);
-              response.isAdmin!==undefined&&this.isAdmin.set(response.isAdmin)
+              response.isAdmin !== undefined &&
+                this.isAdmin.set(response.isAdmin);
             }
-            this.severity.set('success')
+            this.severity.set('success');
             this.message.set('update successful!');
           },
           error: (err) => {
-            this.severity.set('error')
+            this.severity.set('error');
             this.message.set('update failed' + err);
             console.error('update failed:', err);
           },
         });
     }
   }
-  private checkAdmin() {
+  private checkAdmin() :void{
     this.isAdmin.set(this.authService.isAdmin());
   }
-  private checkUserAccess() {
+  private checkUserAccess() :void{
     let currentUserId = this.authService.getCurrentUserId();
     if (this.isAdmin()) {
       currentUserId?.toString() === this.id() && this.userAccess.set(true);
@@ -240,14 +239,14 @@ export class UserDetailComponent extends Destroyable implements OnInit {
       ? this.userAccess.set(true)
       : this.userAccess.set(false);
   }
-  private setDisable() {
+  private setDisable() :void{
     this.userForm.get('name')?.disable();
     this.userForm.get('email')?.disable();
     this.userForm.get('password')?.disable();
     this.userForm.get('confirmPassword')?.disable();
     this.userForm.get('role')?.disable();
   }
-  private setEnable() {
+  private setEnable():void {
     this.userForm.get('name')?.enable();
     this.userForm.get('email')?.enable();
     this.userForm.get('password')?.enable();
@@ -256,7 +255,7 @@ export class UserDetailComponent extends Destroyable implements OnInit {
       this.userForm.get('role')?.enable();
     }
   }
-  private setUserForm(user: IUser) {
+  private setUserForm(user: IUser):void {
     if (!user.name || !user.email || !user.password) {
       return;
     }
@@ -269,15 +268,18 @@ export class UserDetailComponent extends Destroyable implements OnInit {
       role: user.isAdmin ? this.roles[0] : this.roles[1],
     });
   }
-  private setUserInfo() {
-    this.authService.getUserById(this.id()).pipe(takeUntil(this.destroyed$)).subscribe((users) => {
-      let user: IUser = users[0];
-      if (!user.name || !user.email || !user.id || !user.password) {
-        return;
-      }
-      this.setUserInfoValue(user);
-      this.setUserForm(user);
-    });
+  private setUserInfo():void {
+    this.authService
+      .getUserById(this.id())
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe((users) => {
+        let user: IUser = users[0];
+        if (!user.name || !user.email || !user.id || !user.password) {
+          return;
+        }
+        this.setUserInfoValue(user);
+        this.setUserForm(user);
+      });
   }
   private setUserInfoValue(user: IUser): void {
     this.userInfo.set({

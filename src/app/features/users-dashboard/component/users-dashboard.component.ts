@@ -6,13 +6,10 @@ import { FooterComponent } from '../../../shared/components/footer/footer.compon
 
 @Component({
   selector: 'app-users-dashboard',
-  standalone:true,
-  imports: [CommonModule ,RouterOutlet,HeaderComponent ,FooterComponent],
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './users-dashboard.component.html',
   styleUrl: './users-dashboard.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
-export class UsersDashboardComponent {
-
-}
+export class UsersDashboardComponent {}

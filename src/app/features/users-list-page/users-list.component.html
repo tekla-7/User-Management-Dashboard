@@ -1,36 +1,44 @@
 <div class="flex justify-center w-full">
   <div class="pt-[106px] w-full max-w-[1200px] px-6">
     <p class="text-[#000000] text-[22px] font-semibold mb-3">Users</p>
-    <p class="text-[#989898] text-base font-normal mb-8">A list of all the users.</p>
-    <table class="bg-white w-full rounded-[14px] ">
+    <p class="text-[#989898] text-base font-normal mb-8">
+      A list of all the users.
+    </p>
+    <table class="bg-white w-full rounded-[14px]">
       <thead>
-        <tr class="border-b border-[#E5E5E5] ">
-          <th class="font-medium  text-left py-[16px] lg:px-6 px-4">Name</th>
-          <th class="font-medium  text-left py-[16px] lg:px-6 px-4 hidden md:block lg:block">Email</th>
-          <th class="font-medium  text-left py-[16px] lg:px-6 px-4">Role</th>
+        <tr class="border-b border-[#E5E5E5]">
+          <th class="font-medium text-left py-[16px] lg:px-6 px-4">Name</th>
+          <th
+            class="font-medium text-left py-[16px] lg:px-6 px-4 hidden md:block lg:block"
+          >
+            Email
+          </th>
+          <th class="font-medium text-left py-[16px] lg:px-6 px-4">Role</th>
         </tr>
       </thead>
       <tbody>
         <ng-container *ngIf="users$ | async as users">
           @for (item of users; track $index) {
-            <tr
-              [ngClass]="users.length - 1 !== $index ? 'border-b' : ''"
-              class="cursor-pointer border-[#E5E5E5] "
-              (click)="showUser(item.id)"
+          <tr
+            [ngClass]="users.length - 1 !== $index ? 'border-b' : ''"
+            class="cursor-pointer border-[#E5E5E5]"
+            (click)="showUser(item.id)"
+          >
+            <td class="py-[16px] lg:px-6 px-4 text-[#989898]">
+              {{ item.name }}
+            </td>
+            <td
+              class="py-[16px] lg:px-6 px-4 text-[#989898] hidden md:block lg:block"
             >
-              <td class="py-[16px] lg:px-6 px-4 text-[#989898] ">
-                {{ item.name }}
-              </td>
-              <td class="py-[16px] lg:px-6 px-4 text-[#989898] hidden md:block lg:block">
-                {{ item.email }}
-              </td>
-              <td class="py-[16px] lg:px-6 px-4  text-[#989898]">
-                {{ item.isAdmin ? "Admin" : "Member" }}
-              </td>
-              <td class="py-[16px] lg:px-6 px-4 hidden md:block lg:block">
-                <i class="pi pi-eye opacity-0" style="color: #0E1420"></i>
-              </td>
-            </tr>
+              {{ item.email }}
+            </td>
+            <td class="py-[16px] lg:px-6 px-4 text-[#989898]">
+              {{ item.isAdmin ? "Admin" : "Member" }}
+            </td>
+            <td class="py-[16px] lg:px-6 px-4 hidden md:block lg:block">
+              <i class="pi pi-eye opacity-0" style="color: #0e1420"></i>
+            </td>
+          </tr>
           }
         </ng-container>
       </tbody>

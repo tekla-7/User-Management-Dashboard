@@ -1,8 +1,11 @@
-<div class="flex justify-center items-start pt-[110px] min-h-screen max-[640px]:pt-[88px] ">
- 
-  <div class="w-[500px] px-[30px] pt-10 pb-14 bg-[#FFFFFF] rounded-xl max-[640px]:max-w-[350px] max-[640px]:mx-[16px] max-[640px]:p-[0]  ">
-    <div
-      ><p
+<div
+  class="flex justify-center items-start pt-[110px] min-h-screen max-[640px]:pt-[88px]"
+>
+  <div
+    class="w-[500px] px-[30px] pt-10 pb-14 bg-[#FFFFFF] rounded-xl max-[640px]:max-w-[350px] max-[640px]:mx-[16px] max-[640px]:p-[0]"
+  >
+    <div>
+      <p
         class="flex justify-center text-[#000000] font-bold text-[32px] mb-10 max-[640px]:text-[30px] max-[640px]:mb-[40px]"
       >
         Log in
@@ -10,12 +13,12 @@
     </div>
     @if(message()){
 
-      <app-notification-component
-        [message]="message()"
-        (onClose)="onClose()"
-        [severity]="severity()"
-      ></app-notification-component
-      >}
+    <app-notification-component
+      [message]="message()"
+      (onClose)="onClose()"
+      [severity]="severity()"
+    ></app-notification-component
+    >}
     <form [formGroup]="loginForm" (ngSubmit)="submit()" class="w-full">
       <div class="mb-[14px]">
         <input
@@ -38,7 +41,7 @@
         >
         }}
       </div>
-      <div class="mb-8 ">
+      <div class="mb-8">
         <p-password
           placeholder="password"
           formControlName="password"
@@ -65,13 +68,13 @@
         [raised]="true"
         styleClass="w-full h-[48px] mb-[40px]"
         [disabled]="loginForm.invalid"
-        ><p class="text-[#FFFFFF] text-[16px] font-medium">
-          Log in
-        </p></p-button
+        ><p class="text-[#FFFFFF] text-[16px] font-medium">Log in</p></p-button
       >
       <div class="flex justify-center text-[14px] font-sans font-normal">
         <span class="pr-1 text-[#989898]">Don’t have an account ? </span>
-        <a routerLink="/register" class="text-[#6558F2] font-medium"> Sign up</a>
+        <a routerLink="/register" class="text-[#6558F2] font-medium">
+          Sign up</a
+        >
       </div>
     </form>
   </div>

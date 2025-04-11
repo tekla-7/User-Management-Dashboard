@@ -43,7 +43,7 @@ import { takeUntil } from 'rxjs';
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent extends Destroyable{
+export class RegisterComponent extends Destroyable {
   private readonly authService = inject(AuthService);
   private readonly sharedService = inject(SharedService);
   private readonly router = inject(Router);
@@ -72,10 +72,6 @@ export class RegisterComponent extends Destroyable{
         Validators.pattern(/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/),
         this.sharedService.checkpasswordUpperCase,
         this.sharedService.checkpasswordNumber,
-        // Has at least one uppercase letter
-        // Has at least one digit
-        // Has at least one special character
-        // Is at least 8 characters long
       ]),
       confirmPassword: new FormControl('', [
         Validators.required,
@@ -100,7 +96,7 @@ export class RegisterComponent extends Destroyable{
     }
     this.authService
       .register({ email: email, password: password, name: name })
-      .pipe(takeUntil(this.destroyed$),)
+      .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (response) => {
           this.severity.set('success');

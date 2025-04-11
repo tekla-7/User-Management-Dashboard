@@ -121,7 +121,9 @@
   class="lg:hidden fixed inset-0 bg-white transition-all duration-500 ease-in-out md:px-[27px] sm:px-[16px] px-3"
   [ngClass]="isMenuOpen() ? 'max-h-full z-50' : 'max-h-0 overflow-hidden -z-30'"
 >
-  <div class="flex justify-between items-center h-[58px]   border-b-[#E5E5E5] border-b-2 " >
+  <div
+    class="flex justify-between items-center h-[58px] border-b-[#E5E5E5] border-b-2"
+  >
     <div class="flex shrink-0 items-center lg:mr-24">
       <img class="w-[30px]" [src]="'assets/icons/angular.svg'" alt="angular" />
     </div>
@@ -130,8 +132,9 @@
       class="p-1 cursor-pointer"
       (click)="closeMobileMenu()"
     >
-    <i class="pi pi-times text-[#989898] text-[14px] hover:text-[#0E1420] cursor-pointer"></i>
-
+      <i
+        class="pi pi-times text-[#989898] text-[14px] hover:text-[#0E1420] cursor-pointer"
+      ></i>
     </button>
   </div>
   <div class="space-y-1 pt-[25px]">

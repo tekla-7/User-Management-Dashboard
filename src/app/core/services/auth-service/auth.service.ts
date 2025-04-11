@@ -137,8 +137,7 @@ export class AuthService {
   private performUpdate(userData: Partial<IUser>): Observable<IUser> {
     return this.http
       .patch<IUser>(`${this.apiUrl}/users/${userData.id}`, userData)
-      .pipe(
-        catchError(this.handleError('Failed to update user')));
+      .pipe(catchError(this.handleError('Failed to update user')));
   }
 
   private handleError(message: string) {

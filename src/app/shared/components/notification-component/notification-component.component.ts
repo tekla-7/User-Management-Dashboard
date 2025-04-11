@@ -21,13 +21,11 @@ export class NotificationComponentComponent implements OnInit {
   public severity = input.required<SeverityType>();
   public onClose = output<void>();
   ngOnInit(): void {
-      setTimeout(() => {
-        this.onClose.emit();
-      }, 3000);
+    setTimeout(() => {
+      this.onClose.emit();
+    }, 3000);
   }
-  public handleClose():void {
+  public handleClose(): void {
     this.onClose.emit();
-    
   }
-
 }
