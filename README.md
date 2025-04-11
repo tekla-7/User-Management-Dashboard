@@ -74,6 +74,7 @@
     }
   ]
 }
+```
 
 ## Development server
 
