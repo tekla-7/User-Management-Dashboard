@@ -1,0 +1,51 @@
+:host::ng-deep {
+    .p-message-text {
+        font-size: 12px !important;
+        color: #EA5651 !important;
+        font-weight: 400 !important;
+        padding-top: 4px !important;
+
+    }
+
+    p-button#edit>button.p-button {
+        background-color: white !important;
+        border: 1px solid #6558F2 !important;
+
+    }
+
+    p-button#save>button.p-button {
+        background-color: #6558F2 !important;
+        border: 1px solid #6558F2 !important;
+
+    }
+
+    p-button#cancel>button.p-button {
+        background-color: #F6F7F9 !important;
+        border: 1px solid #F6F7F9 !important;
+
+    }
+
+    p-button#delate>button.p-button {
+        background-color: #EA5651 !important;
+        border: 1px solid #EA5651 !important;
+
+    }
+
+    .p-radiobutton-checked .p-radiobutton-box {
+        border: 1px solid #6558F2 !important;
+        background-color: white !important;
+    }
+
+    .p-radiobutton-checked.p-disabled .p-radiobutton-box {
+        border-color: #cbd5e1 !important;
+        background: #e2e8f0 !important;
+    }
+
+    .p-radiobutton-icon {
+        background-color: #6558F2 !important;
+    }
+
+    .p-radiobutton-checked.p-disabled .p-radiobutton-box .p-radiobutton-icon {
+        background-color: #64748b !important;
+    }
+}

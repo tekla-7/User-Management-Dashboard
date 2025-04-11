@@ -12,7 +12,7 @@
       "email": "test@exae.cmm",
       "password": "Ana1@gmail.com",
       "name": "ana",
-      "isAdmin": false
+      "isAdmin": true
     },
     {
       "id": "1744291784755",
@@ -33,6 +33,13 @@
       "email": "ana@ana.ge",
       "password": "Ana@ana.ge1",
       "name": "ana",
+      "isAdmin": false
+    },
+    {
+      "id": "1744349194486",
+      "email": "Admin1@admin.com",
+      "password": "Admin1@admin.com",
+      "name": "Admin",
       "isAdmin": false
     }
   ]

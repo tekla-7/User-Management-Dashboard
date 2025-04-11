@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -14,6 +19,8 @@ import { AuthService } from '../../services/auth-service/auth.service';
 import { Message } from 'primeng/message';
 import { NotificationComponentComponent } from '../../../shared/components/notification-component/notification-component.component';
 import { SeverityType } from '../../../shared/models/severity-type.model';
+import { Destroyable } from '../../../shared/base/classes/destroyable.class';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -30,13 +37,12 @@ import { SeverityType } from '../../../shared/models/severity-type.model';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-
 })
-export class LoginComponent {
+export class LoginComponent extends Destroyable {
   private readonly authService = inject(AuthService);
-  private readonly router=inject(Router)
+  private readonly router = inject(Router);
   message = signal<string>('');
-  severity=signal<SeverityType>('error')
+  severity = signal<SeverityType>('error');
   loginForm = new FormGroup({
     email: new FormControl('', [
       Validators.required,
@@ -57,19 +63,22 @@ export class LoginComponent {
     if (!email || !password) {
       return;
     }
-    this.authService.login(email, password).subscribe({
-      next: (response) => {
-        this.severity.set('success')
-        this.message.set('login successful!');
-        this.router.navigate(['/users']);
-        console.log('login successful!', response);
-      },
-      error: (err) => {
-        this.severity.set('error')
-        this.message.set('login failed' + err);
-        console.error('login failed:', err);
-      },
-    });
+    this.authService
+      .login(email, password)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (response) => {
+          this.severity.set('success');
+          this.message.set('login successful!');
+          this.router.navigate(['/users']);
+          console.log('login successful!', response);
+        },
+        error: (err) => {
+          this.severity.set('error');
+          this.message.set('login failed' + err);
+          console.error('login failed:', err);
+        },
+      });
   }
   public onClose(): void {
     this.message.set('');

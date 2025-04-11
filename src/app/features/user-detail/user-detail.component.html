@@ -1,22 +1,24 @@
-<div class="flex justify-center pt-20">
-  @if(message()){
-  
-    <app-notification-component
-    [message]="message()"
-    (onClose)="onClose()"
-    [severity]="severity()"
-  ></app-notification-component
-  >}
+<div class="flex justify-center pt-[106px] max-[640px]:pt-[90px] bg-[#F9FAFB]">
+  <div
+    class="max-w-[500px] w-full px-[30px] py-10 max-[640px]:px-4 max-[640px]:py-8 bg-white rounded-[14px]"
+  >
+    <h2 class="text-[22px] font-bold mb-8 text-[#000000]">User</h2>
+    @if(message()){
 
-  <p-card header="User" class="lg:w-[80%] min-h-10">
-    <form [formGroup]="userForm" (ngSubmit)="submit()">
-      <div class="mb-3">
-        <label for="name">Name</label>
+    <app-notification-component
+      [message]="message()"
+      (onClose)="onClose()"
+      [severity]="severity()"
+    ></app-notification-component
+    >}
+    <form [formGroup]="userForm" (ngSubmit)="submit()" class="mb-4">
+      <div class="mb-[14px]">
+        <label for="name" class="text-sm font-normal font-baloo">Name</label>
         <input
           type="text"
           pInputText
           formControlName="name"
-          class="w-full"
+          class="w-full h-[52px] mt-[6px]"
           name="name"
           id="name"
         />
@@ -36,13 +38,13 @@
         } }
       </div>
 
-      <div class="mb-3">
-        <label for="email">Email</label>
+      <div class="mb-[14px]">
+        <label for="email" class="text-sm font-normal font-baloo">Email</label>
         <input
+          class="w-full h-[52px] mt-[6px]"
           type="text"
           pInputText
           formControlName="email"
-          class="w-full"
           name="email"
           id="email"
         />
@@ -62,15 +64,17 @@
         } }
       </div>
 
-      <div class="mb-3">
-        <label for="password">password</label>
+      <div class="mb-[14px]">
+        <label for="password" class="text-sm font-normal mb-2 font-baloo"
+          >password</label
+        >
         <p-password
           formControlName="password"
           [feedback]="false"
           inputId="password"
           [toggleMask]="userAccess()"
           inputStyleClass="w-full"
-          styleClass="w-full"
+          styleClass="w-full h-[52px]  mt-[6px]"
         />
         @if(password.invalid&&(password.dirty ||password.touched)){
         @if(password.hasError('required') ){
@@ -95,15 +99,17 @@
         >
         } } }
       </div>
-      <div class="mb-3">
-        <label for="confirmPassword">ConfirmPassword</label>
+      <div class="mb-[16px]">
+        <label for="confirmPassword" class="text-sm font-normal mb-2 font-baloo"
+          >Confirm Password</label
+        >
         <p-password
           formControlName="confirmPassword"
           [feedback]="false"
           inputId="confirmPassword"
           [toggleMask]="userAccess()"
           inputStyleClass="w-full"
-          styleClass="w-full"
+          styleClass="w-full h-[52px]  mt-[6px]"
         />
         @if(confirmPassword.invalid&&(confirmPassword.dirty
         ||confirmPassword.touched)){ @if(confirmPassword.hasError('required') ){
@@ -116,7 +122,7 @@
         >
         } }
       </div>
-      <div class="flex gap-2">
+      <div class="flex gap-2 mb-6">
         @for (role of roles; track $index) {
         <div>
           <p-radiobutton
@@ -124,65 +130,77 @@
             [value]="role"
             formControlName="role"
           />
-          <label [for]="role.key" class="ml-2">{{ role.name }}</label>
+          <label [for]="role.key" class="text-sm font-normal ml-2 font-baloo">{{
+            role.name
+          }}</label>
         </div>
         }
       </div>
 
       <div class="flex">
         @if(!isEditing()){
-        <div class="flex justify-around w-full">
+        <div class="grid grid-cols-3 gap-4 max-[640px]:gap-3">
           <p-button
-            icon="pi pi-check"
+            id="save"
             type="submit"
-            label="save"
             (onClick)="toggleEditState('save')"
             [raised]="true"
             styleClass="w-full mt-6"
             severity="secondary"
             [disabled]="!this.userForm.valid"
-          />
+          >
+            <div class="flex items-center justify-between">
+              <i class="pi-bookmark pi mr-2" style="color: white"></i>
+              <p class="text-white text-base font-medium">Save</p>
+            </div>
+          </p-button>
           <p-button
-            icon="pi pi-times"
             type="button"
-            label="Cancel"
-            (onClick)="toggleEditState('cancel')"
-            [raised]="true"
-            styleClass="w-full mt-6"
-            severity="secondary"
-          />
-          <p-button
-            icon="pi pi-trash"
-            type="button"
-            label="delate"
+            id="delate"
             [raised]="true"
             (onClick)="toggleEditState('delate')"
             styleClass="w-full mt-6"
             severity="secondary"
-          />
+          >
+            <div class="flex items-center justify-between">
+              <i class="pi-trash pi mr-2" style="color: white"></i>
+              <p class="text-white text-base font-medium">Delate</p>
+            </div>
+          </p-button>
+          <p-button
+            id="cancel"
+            type="button"
+            (onClick)="toggleEditState('cancel')"
+            [raised]="true"
+            styleClass="w-full mt-6"
+            severity="secondary"
+          >
+            <div class="flex items-center justify-between">
+              <i class="pi-times pi mr-2" style="color: black; width: 18px"></i>
+              <p class="text-black text-base font-medium">Cancel</p>
+            </div>
+          </p-button>
         </div>
 
         } @if(isEditing()){
-        <p-button
-          icon="pi pi-pencil"
-          type="button"
-          label="edit"
-          (onClick)="toggleEditState('edit')"
-          [raised]="true"
-          styleClass="w-full mt-6"
-          severity="secondary"
-          [disabled]="!isAdmin() && !userAccess()"
-        />
+        <div class="justify-end flex w-full">
+          <p-button
+            id="edit"
+            type="button"
+            (onClick)="toggleEditState('edit')"
+            [raised]="true"
+            styleClass="w-full mt-6"
+            severity="secondary"
+            [disabled]="!isAdmin() && !userAccess()"
+          >
+            <div class="flex items-center justify-between">
+              <i class="pi pi-pencil mr-2" style="color: #6558f2"></i>
+              <p class="text-[#6558F2] text-base font-medium">Edit</p>
+            </div>
+          </p-button>
+        </div>
         }
       </div>
-      <!-- <div class="card flex justify-center">
-        pi-pencil
-
-            <p-button label="Save" icon="pi pi-check" />
-            <p-button label="Delete" icon="pi pi-trash" />
-            <p-button label="Cancel" icon="pi pi-times" />
-    </div> -->
     </form>
-  </p-card>
+  </div>
 </div>
- 

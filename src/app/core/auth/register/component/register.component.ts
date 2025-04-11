@@ -23,6 +23,8 @@ import { Message } from 'primeng/message';
 import { NotificationComponentComponent } from '../../../../shared/components/notification-component/notification-component.component';
 import { SeverityType } from '../../../../shared/models/severity-type.model';
 import { SharedService } from '../../../../shared/services/shared-services/shared.service';
+import { Destroyable } from '../../../../shared/base/classes/destroyable.class';
+import { takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -41,7 +43,7 @@ import { SharedService } from '../../../../shared/services/shared-services/share
   styleUrl: './register.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RegisterComponent {
+export class RegisterComponent extends Destroyable{
   private readonly authService = inject(AuthService);
   private readonly sharedService = inject(SharedService);
   private readonly router = inject(Router);
@@ -98,6 +100,7 @@ export class RegisterComponent {
     }
     this.authService
       .register({ email: email, password: password, name: name })
+      .pipe(takeUntil(this.destroyed$),)
       .subscribe({
         next: (response) => {
           this.severity.set('success');

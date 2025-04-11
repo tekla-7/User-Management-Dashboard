@@ -42,14 +42,7 @@ export class AuthService {
       id: uniqueId.toString(),
       isAdmin: isAdmin,
     };
-
-    return this.CheckDataUniqueService.checkEmailUnique(user.email).pipe(
-      switchMap((exists) => {
-        if (exists) {
-          return throwError(() => new Error('Email already exists'));
-        }
-        return this.http.post<IUser>(`${this.apiUrl}/users`, userWithId);
-      }),
+    return this.http.post<IUser>(`${this.apiUrl}/users`, userWithId).pipe(
       tap((newUser) => {
         const { password, ...userWithoutPassword } = newUser;
         this.setCurrentUser(userWithoutPassword);

@@ -13,9 +13,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { samePasswordValidator } from '../../core/auth/register/validators/same-password.validators';
-import { emailAsyncValidator } from '../../shared/validators/check-email-uniqueness-validator';
-import { Router, RouterLink } from '@angular/router';
-import { CheckDataUniqueService } from '../../core/services/shared/check-data-unique.service';
+import { Router } from '@angular/router';
+
 import { AuthService } from '../../core/services/auth-service/auth.service';
 import { SeverityType } from '../../shared/models/severity-type.model';
 import { CardModule } from 'primeng/card';
@@ -26,10 +25,10 @@ import { Message } from 'primeng/message';
 import { CommonModule } from '@angular/common';
 import { IUser } from '../../core/models/user.model';
 import { SharedService } from '../../shared/services/shared-services/shared.service';
-import { tap } from 'rxjs';
+import { takeUntil, tap } from 'rxjs';
 import { RadioButton } from 'primeng/radiobutton';
-import { HttpClient } from '@angular/common/http';
 import { NotificationComponentComponent } from '../../shared/components/notification-component/notification-component.component';
+import { Destroyable } from '../../shared/base/classes/destroyable.class';
 
 @Component({
   selector: 'app-user-detail',
@@ -49,7 +48,7 @@ import { NotificationComponentComponent } from '../../shared/components/notifica
   styleUrl: './user-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserDetailComponent implements OnInit {
+export class UserDetailComponent extends Destroyable implements OnInit {
   public id = input.required<string | number>();
   public isEditing = signal<boolean>(true);
   private userInfo = signal<IUser>({
@@ -59,7 +58,7 @@ export class UserDetailComponent implements OnInit {
     password: '',
     isAdmin: false,
   });
-  private readonly http = inject(HttpClient);
+ 
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly sharedService = inject(SharedService);
@@ -68,7 +67,7 @@ export class UserDetailComponent implements OnInit {
   private currentLoginUser = signal<IUser | null>(
     this.authService.getCurrentUser()
   );
-  private readonly checkDataUniqueService = inject(CheckDataUniqueService);
+
   message = signal<string>('');
   severity = signal<SeverityType>('error');
   userForm = new FormGroup(
@@ -129,6 +128,7 @@ export class UserDetailComponent implements OnInit {
     }
     this.authService
       .register({ email: email, password: password, name: name })
+      .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (response) => {
           this.severity.set('success');
@@ -174,7 +174,8 @@ export class UserDetailComponent implements OnInit {
               this.router.navigate(['/login']);
             }
           }
-        })
+        }),
+        takeUntil(this.destroyed$)
       )
       .subscribe();
   }
@@ -205,7 +206,8 @@ export class UserDetailComponent implements OnInit {
               this.setUserInfoValue(user);
               console.log('this is update', this.userInfo());
             }
-          })
+          }),
+          takeUntil(this.destroyed$)
         )
         .subscribe({
           next: (response) => {
@@ -263,7 +265,7 @@ export class UserDetailComponent implements OnInit {
     });
   }
   private setUserInfo() {
-    this.authService.getUserById(this.id()).subscribe((users) => {
+    this.authService.getUserById(this.id()).pipe(takeUntil(this.destroyed$)).subscribe((users) => {
       let user: IUser = users[0];
       if (!user.name || !user.email || !user.id || !user.password) {
         return;

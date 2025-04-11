@@ -1,11 +1,12 @@
-:host ::ng-deep .p-message-text {
+:host ::ng-deep{ .p-message-text {
     font-size: 12px !important;
     color: #EA5651!important;
     font-weight: 400!important;
     padding-top: 4px!important;
  
  }
-:host ::ng-deep .p-button {
+ .p-button {
     background-color:#6558F2!important;
     border:#6558F2!important ;
+}
 }
