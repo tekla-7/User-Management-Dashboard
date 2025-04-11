@@ -42,8 +42,11 @@ export class HeaderComponent implements OnInit {
   public toggleMobileMenu(): void {
     this.isMenuOpen.update((el) => !el);
   }
-  public closeMobileMenu(): void {
+  public closeMobileMenu(value: string): void {
     this.isMenuOpen.set(false);
+    if (value == 'user') {
+      this.userRoute();
+    }
   }
   public signOut(): void {
     this.authService.logout();

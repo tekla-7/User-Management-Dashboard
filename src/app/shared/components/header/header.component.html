@@ -130,7 +130,7 @@
     <button
       title="button"
       class="p-1 cursor-pointer"
-      (click)="closeMobileMenu()"
+      (click)="closeMobileMenu('button')"
     >
       <i
         class="pi pi-times text-[#989898] text-[14px] hover:text-[#0E1420] cursor-pointer"
@@ -139,15 +139,14 @@
   </div>
   <div class="space-y-1 pt-[25px]">
     <a
-      (click)="closeMobileMenu()"
+      (click)="closeMobileMenu('users')"
       [routerLink]="['/users']"
       class="block rounded-md px-3 py-2 text-base font-medium text-[#0E1420] hover:bg-[#eceff3] cursor-pointer mb-1"
     >
       Users
     </a>
     <a
-      [routerLink]="['/users/user', currentUserId()]"
-      (click)="closeMobileMenu()"
+      (click)="closeMobileMenu('user')"
       class="block rounded-md px-3 py-2 text-base font-medium text-[#0E1420] hover:bg-[#eceff3] cursor-pointer"
       >User</a
     >
