@@ -15,6 +15,39 @@
   - **Members** can update and delete their own profiles, but cannot modify other users’ information or roles.
   - **Admins** can update and delete any user's profile, change user roles (Member/Admin), and manage user accounts.
 - **Role Restrictions**: Non-admin users cannot change their own role, ensuring that only admins have role-management permissions.
+- 
+## Form Validation
+The application uses strong validation rules in both the **registration** and **profile update** forms to ensure secure and clean user input.
+
+### 📝 Name Validation
+- Must contain **only letters** (A–Z, a–z).
+- Must be at least **2 characters long**.
+
+### 📧 Email Validation
+- Must be a **valid email format** (e.g., `user@example.com`).
+- Includes an **asynchronous validator** that checks whether the email already exists in the system.
+  - ❗ If the email is already registered, the user will see the message:  
+    **"This email is already registered."**
+
+### 🔐 Password Validation
+- Must be at least **8 characters** long.
+- Must include:
+  - At least **1 uppercase letter** (e.g., `A`)
+  - At least **1 lowercase letter** (e.g., `a`)
+  - At least **1 number** (e.g., `5`)
+  - At least **1 special character** (e.g., `!@#$%`)
+
+### ✅ Confirm Password
+- Must **match** the password field exactly.
+- ❗ If the values don’t match, the form will show:  
+  **"Passwords do not match."**
+### 🔐 Login Form
+
+#### Email
+- Must be in a **valid email format**.
+
+#### Password
+- Must be at least **8 characters** long.
 
 ## Technologies Used
 
