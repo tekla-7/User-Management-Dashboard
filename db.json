@@ -8,13 +8,6 @@
       "isAdmin": true
     },
     {
-      "id": "1744349194486",
-      "email": "Admin1@admin.com",
-      "password": "Admin1@admin.com",
-      "name": "Admin",
-      "isAdmin": true
-    },
-    {
       "id": "1744361428517",
       "email": "Member1@gmail.com",
       "password": "Member1@gmail.com",
@@ -33,6 +26,41 @@
       "email": "Member4@gmail.com",
       "password": "Member4@gmail.com",
       "name": "ana",
+      "isAdmin": false
+    },
+    {
+      "id": "1744362158503",
+      "email": "Member5@gmail.com",
+      "password": "Member5@gmail.com",
+      "name": "member",
+      "isAdmin": false
+    },
+    {
+      "id": "1744362178200",
+      "email": "Member6@gmail.com",
+      "password": "Member6@gmail.com",
+      "name": "member",
+      "isAdmin": false
+    },
+    {
+      "id": "1744362194439",
+      "email": "Member7@gmail.com",
+      "password": "Member7@gmail.com",
+      "name": "member",
+      "isAdmin": false
+    },
+    {
+      "id": "1744362249849",
+      "email": "Admin2@admin.com",
+      "password": "Admin2@admin.com",
+      "name": "admin",
+      "isAdmin": true
+    },
+    {
+      "id": "1744362297080",
+      "email": "Member8@gmail.com",
+      "password": "Member8@gmail.com",
+      "name": "member",
       "isAdmin": false
     }
   ]
