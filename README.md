@@ -18,10 +18,28 @@
 
 ## Technologies Used
 
-- **Frontend**: Angular(version 19.2.6)
-- **Backend**: JSON Server (provides a fake REST API for managing users)
-- **Authentication**: JWT (JSON Web Tokens) for secure authentication
-- **Authorization**: Role-based access control (RBAC)
+- **Frontend**: Angular (Single Page Application)
+- **Backend**: JSON Server (provides a mock REST API for managing users)
+- **Authentication**: JWT (JSON Web Tokens) for secure authentication and authorization
+- **Authorization**: Role-based access control (RBAC) for managing user permissions
+- **Guards**: Angular Guards for routing protection
+
+### Authentication
+
+- **`POST /api/login`**: Login for registered users (required data: `email`, `password`).
+- **`POST /api/register`**: Register a new user (required data: `email`, `password`, `name`).
+
+### User Management
+
+- **`GET /api/users`**: Get a list of all users (only accessible by Admins).
+- **`GET /api/users/user/:id`**: Get a specific user's profile by ID (accessible by Admins and authorized users).
+- **`PUT /api/users/user/:id`**: Update a user's profile by ID (Admin and authorized users with correct permissions).
+- **`DELETE /api/users/user/:id`**: Delete a user's profile by ID (accessible by Admins and authorized users with correct permissions).
+  
+### Role-based Guards
+
+- **Unauthorized Guards**: Unauthorized users are blocked from accessing `/users` and `/users/user/:id`. They must be logged in to access these pages.
+- **Authorized Guards**: Authorized users are redirected away from the `/login` and `/register` pages, as they are already logged in.
 
 ## Setup and Installation
 
@@ -34,12 +52,26 @@
 
 1. Clone this repository:
    ```bash
-  https://github.com/tekla-7/User-Management-Dashboard.git
+   git clone https://github.com/tekla-7/User-Management-Dashboard.git
+   
 2.Set up and run JSON Server:
+```bash
 {
   "users": [
-    {"id": "1","email": "Admin1@admin.com","password": "Admin1@admin.com", "name": "Admin", "isAdmin": true},
-     {"id": "1","email": "member1@member.com","password": "Member1@member.com", "name": "member", "isAdmin": false},
+    {
+      "id": "1",
+      "email": "Admin1@admin.com",
+      "password": "Admin1@admin.com",
+      "name": "Admin",
+      "isAdmin": true
+    },
+    {
+      "id": "2",
+      "email": "member1@member.com",
+      "password": "Member1@member.com",
+      "name": "member",
+      "isAdmin": false
+    }
   ]
 }
 
